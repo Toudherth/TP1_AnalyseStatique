@@ -1,0 +1,3 @@
+digraph G {
+nbrClass->listJavaFilesForFolder nbrClass->readFileToString nbrClass->parse nbrClass->toCharArray nbrClass->accept nbrClass->size nbrClass->getMethods main->nbrClass main->println 
+}
