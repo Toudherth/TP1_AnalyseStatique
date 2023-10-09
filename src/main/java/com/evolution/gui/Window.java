@@ -1,9 +1,9 @@
 package com.evolution.gui;
 
+import java.awt.*;
 import java.awt.event.ActionListener;
-import java.awt.Image;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,26 +20,25 @@ public class Window extends JFrame implements ActionListener{
 	public Processor processeur;
 
 	private JPanel pan = new JPanel();
-	private JButton bouton1 = new JButton("Nombre de classe");
-	private JButton bouton2 = new JButton("Nombre de lignes de code de l'application");
-	private JButton bouton3 = new JButton("Nombre total de methodes de l'application");
-	private JButton bouton4 = new JButton("Nombre total de packages de l'application");
-	private JButton bouton5 = new JButton("Nombre moyen de methodes par classe");
-	private JButton bouton6 = new JButton("Nombre moyen de lignes de code par methode");
-	private JButton bouton7 = new JButton("Nombre moyen d'attributs par classe");
-	private JButton bouton8 = new JButton("Les 10% des classes qui possedent le plus grand nombre de methodes");
-	private JButton bouton9 = new JButton("Les 10% des classes qui possedent le plus grand nombre d'attributs");
-	private JButton bouton10 = new JButton("Les classes qui font partie en meme temps des deux categories precedentes");
-	private JButton bouton11 = new JButton("Les classes qui possedent plus de X methodes");
-	private JButton bouton12 = new JButton(
-			"Les 10% des methodes qui possedent le plus grand nombre delignes de code (par classe)");
-	private JButton bouton13 = new JButton(
-			"Le nombre maximal de parametres par rapport a toutes les methodes de l'application.");
+	JButton bouton1 = createStyledButton("Exercice 1");
+	JButton bouton2 = createStyledButton("Exercice 2");
+	JButton bouton3 = createStyledButton("Exercice 3");
+	JButton bouton4 = createStyledButton("Exercice 4");
+	JButton bouton5 = createStyledButton("Exercice 5");
+	JButton bouton6 = createStyledButton("Exercice 6");
+	JButton bouton7 = createStyledButton("Exercice 7");
+	JButton bouton8 = createStyledButton("Exercice 8");
+	JButton bouton9 = createStyledButton("Exercice 9");
+	JButton bouton10 = createStyledButton("Exercice 10");
+	JButton bouton11 = createStyledButton("Exercice 11");
+	JButton bouton12 = createStyledButton("Exercice 12");
+	JButton bouton13 = createStyledButton("Exercice 13");
+
 
 	public Window(Processor processeur) {
 		this.processeur = processeur;
 		this.setTitle("Processeur");
-		this.setSize(800, 500);
+		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 
@@ -80,51 +79,120 @@ public class Window extends JFrame implements ActionListener{
 	public Window() {
 	}
 
+	private JButton createStyledButton(String text) {
+		JButton button = new JButton(text);
+		button.setBackground(Color.WHITE);
+		button.setForeground(Color.BLUE);
+		button.setFont(new Font("Arial", Font.BOLD, 18));
+		// Définissez la taille préférée du bouton (largeur x hauteur)
+		button.setPreferredSize(new Dimension(100, 20));
+		button.addActionListener(this);
+		return button;
+	}
+	private static JButton createColoredButton(String text, Color color) {
+		JButton button = new JButton(text);
+		button.setBackground(color); // Définir la couleur d'arrière-plan du bouton
+		button.setOpaque(true); // Assurez-vous que le bouton est opaque pour voir la couleur
+		return button;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String res;
 
 		if (arg0.getSource().equals(bouton1)) {
-			//res = processeur.exercice1();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice1();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton2)) {
-			//res = processeur.exercice2();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice2();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton3)) {
-			//res = processeur.exercice3();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice3();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton4)) {
-			//res = processeur.exercice4();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice4();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton5)) {
-			//res = processeur.exercice5();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice5();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton6)) {
-			//res = processeur.exercice6();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice6();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton7)) {
-			//res = processeur.exercice7();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice7();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton8)) {
-			//res = processeur.exercice8();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice8();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton9)) {
-			//res = processeur.exercice9();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice9();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton10)) {
-			//res = processeur.exercice10();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice10();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton11)) {
 			String val = JOptionPane.showInputDialog("Nombre de methodes ?");
 			int valInt = Integer.parseInt(val);
-			//res = processeur.exercice11(valInt);
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice11(valInt);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton12)) {
-			//res = processeur.exercice12();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice12();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton13)) {
-			//res = processeur.exercice13();
-			//JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			try {
+				res = processeur.exercice13();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
 		}
 
 	}

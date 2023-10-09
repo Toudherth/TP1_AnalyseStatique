@@ -1,5 +1,4 @@
 package com.evolution.analyse_statique;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,21 +7,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import com.evolution.entity.ClassAtributeCount;
 import com.evolution.entity.ClassMethodCount;
-import com.evolution.entity.MethodLineCount;
-import com.evolution.graphe.GraphVisitor;
+import com.evolution.visitors.GraphVisitor;
 import com.evolution.visitors.StateVisitor;
 
 import guru.nidi.graphviz.attribute.Color;
@@ -37,27 +32,18 @@ import guru.nidi.graphviz.parse.Parser;
 
 import static java.util.Comparator.*;
 
-
 public class Processor {
 	public static ParserAST parse;
-
-	public static final String path = "C:\\Users\\DELL\\OneDrive\\Desktop\\src";
+	public static final String path = "C:\\Users\\DELL\\OneDrive\\Desktop\\projet\\Tp1AnalyseStatique";
 	public static final String projectSourcePath = path + "\\src";
 	public static final String jrePath = "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath";
-
 	final static File folder = new File(projectSourcePath);
 	public static ArrayList<File> javaFiles = parse.listJavaFilesForFolder(folder);
 	public static List<List<Map.Entry<String, Integer>>> methodLinesMap = new ArrayList<>();
-	public List<String> uniquePackages = new ArrayList(); 
-	
-	
+	public List<String> uniquePackages = new ArrayList();
 	private ParserAST parser;
 	private static StateVisitor stateVisitor;
-	//private static LOCMethodVisitor locMethodVisitor;
-	//private StatsVisitor statVisitor;
 	private GraphVisitor graphVisitor;
-	
-	
 	public static int getNbClasses=0;
 	public static int getNbMethods=0;
 	public static int getNbPackages=0;
@@ -65,57 +51,38 @@ public class Processor {
 	public static int getNbAttributs=0;
 	public static int top10Method=0;
 	public static int top10Attributs=0;
-	public static int top10Line=0;
-	public ClassMethodCount classMethodCount;
+	public static int getNbArgMax;
 	
-
-	   
-	  
-	
-	
-	public Processor(String path) {
+	public Processor() {
 		super();
 		parser = new ParserAST();
 		stateVisitor= new StateVisitor();
-		
-		//statVisitor = new StatsVisitor();
 		graphVisitor = new GraphVisitor();
 	}
 	
 	ArrayList<ClassMethodCount> classMethodCounts = new ArrayList<>();
 	ArrayList<ClassAtributeCount> classAttributesCounts = new ArrayList<>();
-	ArrayList<MethodLineCount> methodLineCounts = new ArrayList<>();
-	
+
 	ArrayList<String> classMethodX = new ArrayList<>();
 	
 	
 
-	public void display() throws FileNotFoundException, IOException {
+	public void display() throws  IOException {
 		for (File file : javaFiles) {
 			String content = FileUtils.readFileToString(file);
 	        CompilationUnit ast = parser.getCompilationUnit(content.toCharArray());
 	        // class visitor 1
 	        stateVisitor = new StateVisitor();
 			ast.accept(stateVisitor);
-			// class visitor 2
-			//locMethodVisitor= new LOCMethodVisitor();
-			//ast.accept(locMethodVisitor);
-			
+
 			// gat all data 
 		    getNbClasses+= stateVisitor.getClassSize(); 
 		    getNbLinesOfCodes+=stateVisitor.getLineCount();
 		    getNbMethods+= stateVisitor.getNbrMethod();
 	        getNbAttributs+=stateVisitor.getNbrVariables();
-		    
-		    //Get packages without repetition
-            List<String> packagesInFile = stateVisitor.getPackages();
-            for (String packageName : packagesInFile) {
-                if (!uniquePackages.contains(packageName)) {
-                    uniquePackages.add(packageName);
-                    getNbPackages++;
-                }
-            }
-            
+			//Packages
+			getPackageWithoutRepetition();
+
             // Q 10/11 for Percentage : 
             classMethodCounts.add(new ClassMethodCount(file.getName(), stateVisitor.getNbrMethod()));
             classAttributesCounts.add(new ClassAtributeCount(file.getName(),stateVisitor.getNbrVariables() ));
@@ -129,79 +96,81 @@ public class Processor {
 	            List<Map.Entry<String, Integer>> methodEntry = new ArrayList<>();
 	            methodEntry.add(new AbstractMap.SimpleEntry<>(uniqueKey, lineCount));
 	            methodLinesMap.add(methodEntry);
-	           // System.out.println("Méthode : " + uniqueKey + " - Nombre de lignes : " + lineCount);
 	        }
 	        // Q 13 for nombre of attributs in methods
-            
-            
+			getNbArgMax+= stateVisitor.getNbArgsMax();
+
            
             
 		}
 		// Q1
-		System.out.println("Nombre de classes de l'application : " + getNbClasses);
+		System.out.println("Q1 - Nombre de classes de l'application : " + getNbClasses);
 		// Q2
-		System.out.println("Nombre de lignes de code de l'application : " + getNbLinesOfCodes);	
+		System.out.println("Q2 - Nombre de lignes de code de l'application : " + getNbLinesOfCodes);
 		// Q3
-		System.out.println("Nombre total de méthodes de l'application : " + getNbMethods);
+		System.out.println("Q3 - Nombre total de méthodes de l'application : " + getNbMethods);
 		// Q4
-		System.out.println("Nombre total de packages de l'application : " + getNbPackages);
+		System.out.println("Q4 - Nombre total de packages de l'application : " + getNbPackages);
 		// Q5
-		System.out.println("Nombre moyen de méthodes par classe : " + (getNbMethods / getNbClasses));
+		System.out.println("Q5 - Nombre moyen de méthodes par classe : " + (getNbMethods / getNbClasses));
 		// Q6
-		System.out.println("Nombre moyen de lignes de code par méthode : "+ (getNbLinesOfCodes / getNbMethods));
+		System.out.println("Q6 - Nombre moyen de lignes de code par méthode : "+ (getNbLinesOfCodes / getNbMethods));
 		// Q7
-		System.out.println("Nombre moyen d'attributs par classe : " + (getNbAttributs / getNbClasses));
+		System.out.println("Q7 - Nombre moyen d'attributs par classe : " + (getNbAttributs / getNbClasses));
 		// Q8
-		System.out.println("Les 10% des classes qui possèdent le plus grand nombre de méthodes : ");
+		System.out.println("Q8 - Les 10% des classes qui possèdent le plus grand nombre de méthodes : ");
 		getPercentageMethodForClass();
 		
 		// Q9
-		System.out.println("Les 10% des classes qui possèdent le plus grand nombre d'attributs : ");
+		System.out.println("Q9 - Les 10% des classes qui possèdent le plus grand nombre d'attributs : ");
 		getPercentageAttributForClass();
 		
 		// Q10
 		//Question 10 :
-		System.out.println("Les classes qui font partie en même temps des deux catégories précédentes : ");
+		System.out.println("Q10 - Les classes qui font partie en même temps des deux catégories précédentes : ");
 	    ClassWithToCategories(top10Method, top10Attributs);
 	    
 	    // 11
- 		System.out.println("Les classes qui possèdent plus de X méthodes : \n*Veuillez insérer la valeur de X****");
+ 		System.out.println("Q11 - Les classes qui possèdent plus de X méthodes : \n*Veuillez insérer la valeur de X****");
  		@SuppressWarnings("resource")
  		Scanner sc = new Scanner(System.in);
  		int x = sc.nextInt();
  		getClassWithXMethods(x);
  		
  		// Q12
- 		System.out.println("Les 10% des méthodes qui possèdent le plus grand nombre de lignes de code (par classe) :");
+ 		System.out.println("Q12 - Les 10% des méthodes qui possèdent le plus grand nombre de lignes de code :");
  		displayMethodCodeLines();
  		// Q13 
  		System.out
-		.println("Le nombre maximal de paramètres par rapport à toutes les méthodes de l'application est de : ");
-				//+ stateVisitor.getNbArgsMax());
- 		System.out.println("___________________________________________________________________________________");
+		.println("Q13 - Le nombre maximal de paramètres par rapport à toutes les méthodes de l'application est de : "
+				+ getNbArgMax);
  		System.out.println("");
 				
 	}
 	
-	public void getPercentageMethodForClass() {
-		
-		classMethodCounts.sort(comparingInt(ClassMethodCount::getMethodCount).reversed());
-		// Calculate the number of classes that make up 10% of the total.
-		top10Method = (int) Math.ceil(0.10 * classMethodCounts.size());
-		for (int i = 0; i < top10Method; i++) {	
-			ClassMethodCount classMethodCount = classMethodCounts.get(i);
-			System.out.println(classMethodCount.getClassName() + " - Nombre de méthodes : " + classMethodCount.getMethodCount());
-		}
-	}
+	public Object getPercentageMethodForClass() {
+
+        classMethodCounts.sort(comparingInt(ClassMethodCount::getMethodCount).reversed());
+        // Calculate the number of classes that make up 10% of the total.
+        top10Method = (int) Math.ceil(0.10 * classMethodCounts.size());
+        ClassMethodCount classMethodCount = null;
+        for (int i = 0; i < top10Method; i++) {
+            classMethodCount = classMethodCounts.get(i);
+            System.out.println(classMethodCount.getClassName() + " - Nombre de méthodes : " + classMethodCount.getMethodCount());
+        }
+        return classMethodCount;
+    }
 	
-	public void getPercentageAttributForClass() {
-		classAttributesCounts.sort(comparingInt(ClassAtributeCount::getMethodCount).reversed());
-		top10Attributs = (int) Math.ceil(0.10 * classAttributesCounts.size());
-		for (int i = 0; i < top10Attributs; i++) {
-			ClassAtributeCount classAttributCount = classAttributesCounts.get(i);
-			System.out.println(classAttributCount.getClassName() + " - Nombre d'attributs : " + classAttributCount.getMethodCount());
-		}
-	}
+	public Object getPercentageAttributForClass() {
+        classAttributesCounts.sort(comparingInt(ClassAtributeCount::getMethodCount).reversed());
+        top10Attributs = (int) Math.ceil(0.10 * classAttributesCounts.size());
+        ClassAtributeCount classAttributCount = null;
+        for (int i = 0; i < top10Attributs; i++) {
+            classAttributCount = classAttributesCounts.get(i);
+            System.out.println(classAttributCount.getClassName() + " - Nombre d'attributs : " + classAttributCount.getMethodCount());
+        }
+        return classAttributCount;
+    }
 	
 	
 	//***********************************************
@@ -210,7 +179,6 @@ public class Processor {
 	        List<Map.Entry<String, Integer>> top10PercentMethods = stateVisitor.getTop10PercentMethods(methodLinesMap);
 
 	        // Affichez les résultats
-	        System.out.println("Top 10 % des méthodes avec le plus grand nombre de lignes de code :");
 	        for (Map.Entry<String, Integer> entry : top10PercentMethods) {
 	            String methodName = entry.getKey();
 	            int lineCount = entry.getValue();
@@ -218,7 +186,7 @@ public class Processor {
 	        }
 	}
 
-	public void ClassWithToCategories(int m, int a) {
+	public Object ClassWithToCategories(int m, int a) {
 		List<String> classesInBothCategories = new ArrayList<>();
 		for (int i = 0; i < top10Method; i++) {
 	        ClassMethodCount methodCount = classMethodCounts.get(i);
@@ -231,6 +199,7 @@ public class Processor {
 	            }
 	        }
 		}
+		return null;
 	}
 	
 	
@@ -321,6 +290,81 @@ public class Processor {
 
 	}
 
-	
-	
+	// get All packages :
+	public Object getPackageWithoutRepetition(){
+		List<String> packagesInFile = stateVisitor.getPackages();
+		for (String packageName : packagesInFile) {
+			if (!uniquePackages.contains(packageName)) {
+				uniquePackages.add(packageName);
+				getNbPackages++;
+			}
+		}
+		return getNbPackages;
+	}
+	/*-------------------------- Les interfaces graphiques ------------------------ */
+
+
+
+	public String exercice1() throws  IOException{
+		metodeExecution();
+		return String.valueOf(stateVisitor.getClassSize()-1);
+	}
+	public String exercice2() throws  IOException{
+		metodeExecution();
+		return String.valueOf(stateVisitor.getLineCount()-1);
+	}
+	public String exercice3() throws  IOException{
+		metodeExecution();
+		return String.valueOf(stateVisitor.getNbrMethod());
+	}
+	public String exercice4() throws  IOException{
+		metodeExecution();
+		return String.valueOf(this.getPackageWithoutRepetition());
+	}
+	public String exercice5() throws  IOException{
+		metodeExecution();
+		return String.valueOf((stateVisitor.getNbrMethod()/stateVisitor.getClassSize()));
+	}
+	public String exercice6() throws  IOException{
+		metodeExecution();
+		return String.valueOf((stateVisitor.getLineCount() / stateVisitor.getNbrMethod()));
+	}
+	public String exercice7() throws  IOException{
+		metodeExecution();
+		return String.valueOf((stateVisitor.getNbrVariables() / stateVisitor.getClassSize()));
+	}
+	public String exercice8() throws  IOException{
+		metodeExecution();
+		return String.valueOf(getPercentageMethodForClass());
+	}
+	public String exercice9() throws  IOException{
+		metodeExecution();
+		return String.valueOf(getPercentageAttributForClass());
+	}
+	public String exercice10() throws  IOException{
+		metodeExecution();
+		return String.valueOf(ClassWithToCategories(top10Method, top10Attributs));
+	}
+	public String exercice11(int valInt) throws  IOException{
+		metodeExecution();
+		return String.valueOf(stateVisitor.getNbrMethod());
+	}
+	public String exercice12() throws  IOException{
+		metodeExecution();
+		return String.valueOf(stateVisitor.getNbrVariables());
+	}
+	public String exercice13() throws  IOException{
+		metodeExecution();
+		return String.valueOf(stateVisitor.getNbrVariables());
+	}
+
+	public void metodeExecution() throws IOException{
+		for (File file : javaFiles) {
+			String content = FileUtils.readFileToString(file);
+			CompilationUnit ast = parser.getCompilationUnit(content.toCharArray());
+			ast.accept(stateVisitor);
+
+		}
+	}
+
 }

@@ -19,7 +19,7 @@ public class Main {
 	
 	// main execution 
 	
-	public static final String path = "C:\\\\Users\\\\DELL\\\\eclipse-workspace\\\\tp1.exemple";
+	public static final String path = "C:\\Users\\DELL\\OneDrive\\Desktop\\projet\\Tp1AnalyseStatique";
 	public static final String projectSourcePath = path + "\\src";
 	public static final String jrePath = "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath";
 
@@ -51,56 +51,57 @@ public class Main {
 	
 	public static void Menu() throws FileNotFoundException, IOException {
 		Scanner sc = new Scanner(System.in);
-		int choice = 0;
+		String choice = "";
 		Processor processor;
 		Window window;
-		processor = new Processor(Main.path);
+		processor = new Processor();
 		processor.process();
 		processor.processGraph();
 		processor.saveGraph();
 		processor.saveGraphAsPNG();
 		while (true) {
-			System.out.println(
-					"********Bienvenue dans Notre application permettant l'analyse statique d'un programme*******");
-			System.out.println(
-					"Pour obtenir les informations des classes du projet (infos de la partie 2 du TP) tapez 1");
-			System.out.println("Pour la version graphique de l'exercice 1 tapez 2");
-			System.out.println("Pour le graphe d'appels tapez 3");
-			System.out.println("Pour la version graphique de l'exercice 2 tapez 4");
+			System.out.println("-----------------------------------------------------------------------------------");
+			System.out.println("***		BIENVENUE dans application de l'analyse statique d'un programme		***");
+			System.out.println("-----------------------------------------------------------------------------------");
+			System.out.println("Pour obtenir les informations de la question 1.1 du projet : tapez 1");
+			System.out.println("Pour la version graphique de l'exercice 1.2 : tapez 2");
+			System.out.println("Pour le graphe d'appels 2.1 : tapez 3");
+			System.out.println("Pour la version graphique de l'exercice 2.2 : tapez 4");
 			System.out.println("Pour quitter tapez 0");
-			choice = sc.nextInt();
+			choice = sc.nextLine();
 			switch (choice) {
-			case 1: {
+			case "1": {
 				
 				//process();
 				processor.display();
 				System.out.println(" ");
 				break;
 			}
-			case 2: {
+			case "2": {
 				System.out.println("La fenetre va s'ouvrir !");
 				window = new Window(processor);
 				break;
 			}
-			case 3: {
+			case "3": {
 				System.out.println("Le graphe d'appels est :");
 				System.out.println(processor.getGraph());
 				break;
 			}
-			case 4: {
+			case "4": {
 				System.out.println("La fenetre va s'ouvrir !");
 				window = new Window();
 				window.showGraph();
 				;
 				break;
 			}
-			case 0: {
+			case "0": {
 				System.out.println("Au revoir ! ");
 				sc.close();
 				System.exit(0);
 				break;
 			}
 			default:
+				System.out.println("Votre choix ne figure pas dans noter proposition !!!! ( 1, 2, 3, 4, 0) ");
 				break;
 			}
 
@@ -109,7 +110,7 @@ public class Main {
 	}
 	
 	
-	public static void process() throws FileNotFoundException, IOException {
+	/*public static void process() throws FileNotFoundException, IOException {
 
 		for (File file : javaFiles) {
 			
@@ -121,7 +122,7 @@ public class Main {
 		    getAllmethods+= stateVisitor.getNbrMethod();
 
 		}
-	}
+	}*/
 	
 	
 
