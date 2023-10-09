@@ -15,7 +15,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 public class ParserAST {
 
-	public static final String projectPath = "C:\\\\Users\\\\DELL\\\\eclipse-workspace\\\\tp1.exemple";
+	public static final String projectPath = "C:\\Users\\DELL\\OneDrive\\Desktop\\src";
 	public static final String projectSourcePath = projectPath + "\\src";
 	public static final String jrePath = "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath";
 
@@ -28,16 +28,13 @@ public class ParserAST {
 			if (fileEntry.isDirectory()) {
 				javaFiles.addAll(listJavaFilesForFolder(fileEntry));
 			} else if (fileEntry.getName().contains(".java")) {
-				// System.out.println(fileEntry.getName());
+
 				javaFiles.add(fileEntry);
 			}
 		}
 
 		return javaFiles;
 	}
-
-
-
 
 	// create AST
 	public static CompilationUnit getCompilationUnit(char[] classSource) {
@@ -60,14 +57,6 @@ public class ParserAST {
 
 		return (CompilationUnit) parser.createAST(null); // create and parse
 	}
-
-
-
-
-
-
-
-
 
 
 }

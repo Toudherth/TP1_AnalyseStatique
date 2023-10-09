@@ -37,7 +37,7 @@ public class Window extends JFrame implements ActionListener{
 
 	public Window(Processor processeur) {
 		this.processeur = processeur;
-		this.setTitle("Processeur");
+		this.setTitle("BIENVENUE dans l'application de l'analyse statique d'un programme");
 		this.setSize(600, 400);
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
@@ -106,70 +106,70 @@ public class Window extends JFrame implements ActionListener{
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan,"Nombre de Classes de l'Application est :"+res, "Resultat : Question 1 ", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton2)) {
 			try {
 				res = processeur.exercice2();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan,"Nombre de Lignes de Code de l'Application est : "+res, "Resultat : Question 2", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton3)) {
 			try {
 				res = processeur.exercice3();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan,"Nombre Total de Méthodes de l'Application est : "+res, "Resultat : Question 3", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton4)) {
 			try {
 				res = processeur.exercice4();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan,"Nombre Total de Packages de l'Application est : "+res, "Resultat : Question 4", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton5)) {
 			try {
 				res = processeur.exercice5();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan,"Nombre Moyen de Méthodes par Classe est : "+res, "Resultat : Question 5", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton6)) {
 			try {
 				res = processeur.exercice6();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan,"Nombre Moyen de Lignes de Code par Méthode est : "+res, "Resultat : Question 6", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton7)) {
 			try {
 				res = processeur.exercice7();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan, "Nombre Moyen d'Attributs par Classe est : "+res, "Resultat : Question 7", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton8)) {
 			try {
 				res = processeur.exercice8();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan, "Les 10% des Classes avec le Plus Grand Nombre de Méthodes est : "+res, "Resultat : Question 8", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton9)) {
 			try {
 				res = processeur.exercice9();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan, "Les 10% des Classes avec le Plus Grand Nombre d'Attributs est : "+res, "Resultat : Question 9", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton10)) {
 			try {
 				res = processeur.exercice10();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan,"Classes faisant Partie des Deux Catégories Précédentes"+res, "Resultat : Question 10", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton11)) {
 			String val = JOptionPane.showInputDialog("Nombre de methodes ?");
 			int valInt = Integer.parseInt(val);
@@ -178,21 +178,21 @@ public class Window extends JFrame implements ActionListener{
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan, "Classes avec Plus de X Méthodes est : "+res, "Resultat : Question 11", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton12)) {
 			try {
 				res = processeur.exercice12();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan, "Les 10% des Méthodes avec le Plus Grand Nombre de Lignes de Code est : "+res, "Resultat : Question 12", JOptionPane.CLOSED_OPTION);
 		} else if (arg0.getSource().equals(bouton13)) {
 			try {
 				res = processeur.exercice13();
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
-			JOptionPane.showMessageDialog(pan, res, "Resultat", JOptionPane.CLOSED_OPTION);
+			JOptionPane.showMessageDialog(pan, "Le Nombre Maximal de Paramètres par Rapport à Toutes les Méthodes est : "+res, "Resultat : Question 13", JOptionPane.CLOSED_OPTION);
 		}
 
 	}

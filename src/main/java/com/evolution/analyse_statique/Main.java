@@ -19,14 +19,11 @@ public class Main {
 	
 	// main execution 
 	
-	public static final String path = "C:\\Users\\DELL\\OneDrive\\Desktop\\projet\\Tp1AnalyseStatique";
+	public static final String path = "C:\\Users\\DELL\\OneDrive\\Desktop\\src";
 	public static final String projectSourcePath = path + "\\src";
 	public static final String jrePath = "C:\\Program Files\\Common Files\\Oracle\\Java\\javapath";
 
-	
-    
-	public static int allClasses=0;
-	public static int getAllmethods;
+
 	public static ParserAST parse;
 	
 	
@@ -71,8 +68,7 @@ public class Main {
 			choice = sc.nextLine();
 			switch (choice) {
 			case "1": {
-				
-				//process();
+
 				processor.display();
 				System.out.println(" ");
 				break;
@@ -110,20 +106,7 @@ public class Main {
 	}
 	
 	
-	/*public static void process() throws FileNotFoundException, IOException {
 
-		for (File file : javaFiles) {
-			
-			String content = FileUtils.readFileToString(file);
-	        CompilationUnit ast = ParserAST.getCompilationUnit(content.toCharArray());
-	        stateVisitor = new StateVisitor();
-			ast.accept(stateVisitor);
-		    allClasses+= stateVisitor.getClassSize(); 
-		    getAllmethods+= stateVisitor.getNbrMethod();
-
-		}
-	}*/
-	
 	
 
 }

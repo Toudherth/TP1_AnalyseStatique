@@ -64,8 +64,8 @@ public class Processor {
 	ArrayList<ClassAtributeCount> classAttributesCounts = new ArrayList<>();
 
 	ArrayList<String> classMethodX = new ArrayList<>();
-	
-	
+
+
 
 	public void display() throws  IOException {
 		for (File file : javaFiles) {
@@ -75,8 +75,8 @@ public class Processor {
 	        stateVisitor = new StateVisitor();
 			ast.accept(stateVisitor);
 
-			// gat all data 
-		    getNbClasses+= stateVisitor.getClassSize(); 
+			// gat all data
+		    getNbClasses+= stateVisitor.getClassSize();
 		    getNbLinesOfCodes+=stateVisitor.getLineCount();
 		    getNbMethods+= stateVisitor.getNbrMethod();
 	        getNbAttributs+=stateVisitor.getNbrVariables();
@@ -156,7 +156,7 @@ public class Processor {
         ClassMethodCount classMethodCount = null;
         for (int i = 0; i < top10Method; i++) {
             classMethodCount = classMethodCounts.get(i);
-            System.out.println(classMethodCount.getClassName() + " - Nombre de méthodes : " + classMethodCount.getMethodCount());
+            System.out.println("	"+classMethodCount.getClassName() + " - Nombre de méthodes : " + classMethodCount.getMethodCount());
         }
         return classMethodCount;
     }
@@ -167,22 +167,23 @@ public class Processor {
         ClassAtributeCount classAttributCount = null;
         for (int i = 0; i < top10Attributs; i++) {
             classAttributCount = classAttributesCounts.get(i);
-            System.out.println(classAttributCount.getClassName() + " - Nombre d'attributs : " + classAttributCount.getMethodCount());
+            System.out.println("	"+classAttributCount.getClassName() + " - Nombre d'attributs : " + classAttributCount.getMethodCount());
         }
         return classAttributCount;
     }
 	
 	
-	//***********************************************
+	//*********
+	// **************************************
 	public void displayMethodCodeLines() {
-		 //System.out.println(" je suis dans le tableau "+stateVisitor);
+
 	        List<Map.Entry<String, Integer>> top10PercentMethods = stateVisitor.getTop10PercentMethods(methodLinesMap);
 
 	        // Affichez les résultats
 	        for (Map.Entry<String, Integer> entry : top10PercentMethods) {
 	            String methodName = entry.getKey();
 	            int lineCount = entry.getValue();
-	            System.out.println("Méthode : " + methodName + " - Nombre de lignes : " + lineCount);
+	            System.out.println("	Méthode : " + methodName + " - Nombre de lignes : " + lineCount);
 	        }
 	}
 
@@ -194,7 +195,7 @@ public class Processor {
 	            ClassAtributeCount attributCount = classAttributesCounts.get(j);
 	            if (methodCount.getClassName().equals(attributCount.getClassName())) {
 	                classesInBothCategories.add(methodCount.getClassName());
-	               System.out.println("La classe "+methodCount.getClassName() +" a "+ methodCount.getMethodCount()+" de methodes et "+ attributCount.getMethodCount() +" nombre d'attributs ");
+	               System.out.println("		La classe "+methodCount.getClassName() +" a "+ methodCount.getMethodCount()+" de methodes et "+ attributCount.getMethodCount() +" nombre d'attributs ");
 	                break; 	                
 	            }
 	        }
@@ -209,7 +210,7 @@ public class Processor {
 		for(ClassMethodCount c: classMethodCounts) {
 			if(c.getMethodCount() >=x) {
 				classMethodX.add(c.getClassName());
-				System.out.println("La classe " + c.getClassName() + " a au moins " + c.getMethodCount() + " méthodes.");
+				System.out.println("	La classe " + c.getClassName() + " a au moins " + c.getMethodCount() + " méthodes.");
 				}
 		}
 		
@@ -224,9 +225,6 @@ public class Processor {
 	        CompilationUnit ast = ParserAST.getCompilationUnit(content.toCharArray());
 	        stateVisitor = new StateVisitor();
 			ast.accept(stateVisitor);
-		  //  allClasses+= stateVisitor.getClassSize(); 
-		  //  getAllmethods+= stateVisitor.getNbrMethod();
-
 		}
 	}
 	
@@ -290,7 +288,7 @@ public class Processor {
 
 	}
 
-	// get All packages :
+	// cette methode est utiliser pour avoir les packages qui existe dans le porjet sans répétitions
 	public Object getPackageWithoutRepetition(){
 		List<String> packagesInFile = stateVisitor.getPackages();
 		for (String packageName : packagesInFile) {

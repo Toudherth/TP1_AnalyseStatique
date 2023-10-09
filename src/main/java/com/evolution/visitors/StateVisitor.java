@@ -18,7 +18,6 @@ public class StateVisitor extends ASTVisitor{
 	// Declarations :
 
     private int nbArgsMax;
-    private int packagesget=0;
     private int packageCount;
     List<String> uniquePackages = new ArrayList();
     private int lineCount = 0;
@@ -49,16 +48,7 @@ public class StateVisitor extends ASTVisitor{
     	return visitedPackages;
     }
 
-    public int allPackagesWithoutRepetition() {
 
-        for (String packageName : getPackages()) {
-            if (uniquePackages.contains(packageName)) {
-                uniquePackages.add(packageName);
-              System.out.println("uryuititur "+packageName+ "  "+ uniquePackages.get(0));  packagesget++;
-            }
-        }
-        return packagesget;
-    }
     @Override
     public boolean visit(TypeDeclaration node) {
     	classDeclarations.add(node);
@@ -148,10 +138,6 @@ public class StateVisitor extends ASTVisitor{
     public int getLineCount() {
         return totalLines;
     }
-
-
-
-
     public int getNbArgsMax() {
         return nbArgsMax;
     }
